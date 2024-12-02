@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Simple placeholder character -->
+    <circle cx="100" cy="70" r="40" fill="#32cd32"/>
+    <rect x="60" y="110" width="80" height="60" fill="#32cd32"/>
+    <!-- Sunglasses -->
+    <rect x="70" y="60" width="60" height="20" fill="black"/>
+    <!-- Smile -->
+    <path d="M80 85 Q100 105 120 85" stroke="black" fill="none" stroke-width="3"/>
+</svg>

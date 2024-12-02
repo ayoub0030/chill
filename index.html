@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chill Guy's Power Panic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="home-screen" class="screen active">
+        <div class="flashing-header">
+            <h1>The world is losing power!</h1>
+            <h2>Will you save it, or will chaos reign?</h2>
+        </div>
+        <div id="chill-guy-container">
+            <div id="chill-guy" class="running"></div>
+            <div class="speech-bubble">
+                Yo, we're burning watts here! Press START before it's too late!
+            </div>
+        </div>
+        <button id="start-button" class="glow-effect">Start the Chaos</button>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <div id="chaos-particles"></div>
+        <div id="game-hud">
+            <div id="timer">Time: <span id="time-left">60</span></div>
+            <div id="score">Score: <span id="current-score">0</span></div>
+            <div id="energy-meter">
+                <div id="energy-bar"></div>
+            </div>
+        </div>
+        
+        <div id="game-container">
+            <div id="score-container">
+                <span id="score">0</span>
+            </div>
+            <div id="game-area">
+                <!-- Mini-games will be dynamically inserted here -->
+            </div>
+            <div id="power-ups">
+                <button class="power-up-btn" id="solar-supercharge">
+                    ⚡ Solar Supercharge
+                </button>
+                <button class="power-up-btn" id="wind-turbine-boost">
+                    💨 Wind Turbine Boost
+                </button>
+            </div>
+            <!-- Chill Guy Cam -->
+            <div class="chill-guy-cam">
+                <div class="cam-header">
+                    <div class="recording-dot"></div>
+                    CHILL GUY CAM
+                </div>
+                <div class="chill-guy-avatar">😎</div>
+                <div class="cam-filter vhs"></div>
+            </div>
+        </div>
+        
+        <div id="chill-guy-corner">
+            <div id="chill-guy-game" class="bounce"></div>
+            <div class="random-quote"></div>
+        </div>
+    </div>
+
+    <div id="game-over-screen" class="screen">
+        <h2>Game Over!</h2>
+        <div id="final-score"></div>
+        <div id="leaderboard">
+            <h3>Top Energy Heroes</h3>
+            <ul id="leaderboard-list"></ul>
+        </div>
+        <button id="restart-button" class="glow-effect">Play Again</button>
+    </div>
+
+    <div id="party-overlay" class="hidden">
+        <div class="disco-light"></div>
+        <div class="disco-light"></div>
+        <div class="disco-light"></div>
+        <div id="party-text">Save the energy, bro!</div>
+    </div>
+    <audio id="party-sound" preload="auto">
+        <source src="assets/party-sound.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="game.js"></script>
+</body>
+</html>

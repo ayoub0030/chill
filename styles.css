@@ -1,0 +1,985 @@
+:root {
+    --neon-pink: #ff1493;
+    --electric-blue: #00ffff;
+    --lime-green: #32cd32;
+    --neon-yellow: #ffff00;
+    --neon-purple: #9d00ff;
+    --background-dark: #1a1a1a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Fredoka One', cursive;
+    background-color: var(--background-dark);
+    color: white;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 30%, var(--neon-pink) 0%, transparent 20%),
+        radial-gradient(circle at 70% 70%, var(--electric-blue) 0%, transparent 20%),
+        radial-gradient(circle at 30% 70%, var(--lime-green) 0%, transparent 20%),
+        radial-gradient(circle at 70% 30%, var(--neon-purple) 0%, transparent 20%);
+    opacity: 0.1;
+    z-index: -1;
+    animation: backgroundPulse 8s infinite;
+}
+
+@keyframes backgroundPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.screen {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Home Screen Styles */
+.flashing-header {
+    text-align: center;
+    animation: flash 2s infinite;
+}
+
+.flashing-header h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 3em;
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+    animation: chaosText 2s infinite;
+}
+
+@keyframes chaosText {
+    0% { 
+        text-shadow: 0 0 10px var(--neon-pink),
+                     0 0 20px var(--neon-pink),
+                     0 0 30px var(--neon-pink);
+        transform: scale(1);
+    }
+    25% { 
+        text-shadow: 0 0 10px var(--electric-blue),
+                     0 0 20px var(--electric-blue),
+                     0 0 30px var(--electric-blue);
+        transform: scale(1.05) rotate(1deg);
+    }
+    50% { 
+        text-shadow: 0 0 10px var(--lime-green),
+                     0 0 20px var(--lime-green),
+                     0 0 30px var(--lime-green);
+        transform: scale(1) rotate(-1deg);
+    }
+    75% { 
+        text-shadow: 0 0 10px var(--neon-purple),
+                     0 0 20px var(--neon-purple),
+                     0 0 30px var(--neon-purple);
+        transform: scale(1.05) rotate(1deg);
+    }
+}
+
+.flashing-header h2 {
+    font-size: 2em;
+    color: var(--electric-blue);
+    margin-top: 20px;
+}
+
+#chill-guy-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 40px auto;
+}
+
+#chill-guy {
+    width: 200px;
+    height: 200px;
+    background-image: url('assets/chill-guy.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+    animation: bounce 2s infinite;
+    transition: all 0.3s ease;
+}
+
+#chill-guy:hover {
+    transform: scale(1.1) rotate(5deg);
+    filter: hue-rotate(90deg);
+}
+
+#chill-guy.panic {
+    animation: panicMode 0.3s infinite;
+}
+
+@keyframes panicMode {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-5px, -5px) rotate(-5deg); }
+    50% { transform: translate(5px, 5px) rotate(5deg); }
+    75% { transform: translate(-5px, 5px) rotate(-5deg); }
+}
+
+.running {
+    animation: run 0.5s infinite steps(8);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.speech-bubble {
+    position: absolute;
+    background: white;
+    border-radius: 20px;
+    padding: 15px;
+    color: black;
+    max-width: 250px;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    border: 10px solid transparent;
+    border-top-color: white;
+}
+
+/* Button Styles */
+.glow-effect {
+    padding: 20px 40px;
+    font-size: 24px;
+    font-family: 'Luckiest Guy', cursive;
+    background: var(--lime-green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    animation: glow 1.5s infinite;
+    transition: transform 0.2s;
+}
+
+.glow-effect:hover {
+    transform: scale(1.1);
+}
+
+/* Game Screen Styles */
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-dark);
+    overflow: hidden;
+}
+
+#score-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+#game-area {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+#power-ups {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 100;
+}
+
+.power-up-btn {
+    padding: 15px 30px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid var(--electric-blue);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px var(--electric-blue);
+}
+
+.power-up-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px var(--electric-blue);
+}
+
+.power-up-btn:active {
+    transform: scale(0.95);
+}
+
+#game-hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+}
+
+#timer, #score {
+    font-size: 24px;
+    text-shadow: 0 0 10px var(--electric-blue);
+}
+
+#energy-meter {
+    width: 300px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--electric-blue);
+    box-shadow: 0 0 10px var(--electric-blue);
+}
+
+#energy-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--lime-green), var(--electric-blue));
+    transition: width 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#energy-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(255, 255, 255, 0.8) 50%,
+        transparent 100%
+    );
+    animation: energySurge 2s infinite;
+}
+
+@keyframes energySurge {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
+
+/* Game Container */
+.game-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--background-dark);
+}
+
+/* Chill Guy Cam Styles */
+.chill-guy-cam {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 200px;
+    height: 150px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid var(--neon-pink);
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 1000;
+    box-shadow: 0 0 20px var(--neon-pink);
+}
+
+.cam-header {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    color: var(--neon-pink);
+    font-family: 'Fredoka One', cursive;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.recording-dot {
+    width: 8px;
+    height: 8px;
+    background: red;
+    border-radius: 50%;
+    animation: blink 1s infinite;
+}
+
+.chill-guy-avatar {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 80px;
+    transition: all 0.3s ease;
+}
+
+/* Chill Guy Reactions */
+.chill-guy-avatar.cheering {
+    animation: jumpForJoy 1s infinite;
+}
+
+.chill-guy-avatar.crying {
+    animation: shakeSad 1s infinite;
+}
+
+.chill-guy-avatar.dancing {
+    animation: tikTokDance 2s infinite;
+}
+
+.reaction-effect {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    color: var(--electric-blue);
+    text-shadow: 0 0 10px var(--electric-blue);
+    opacity: 0;
+    animation: floatUp 1s forwards;
+}
+
+/* Cam Filter Effects */
+.cam-filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.cam-filter.vhs::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    animation: vhsNoise 0.5s steps(2) infinite;
+}
+
+.cam-filter.glitch {
+    animation: glitchEffect 0.3s infinite;
+}
+
+/* Chill Guy Animations */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes jumpForJoy {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-20px) scale(1.1); }
+}
+
+@keyframes shakeSad {
+    0%, 100% { transform: translateX(-50%) rotate(0); }
+    25% { transform: translateX(-50%) rotate(-5deg); }
+    75% { transform: translateX(-50%) rotate(5deg); }
+}
+
+@keyframes tikTokDance {
+    0% { transform: translateX(-50%) rotate(0) scale(1); }
+    25% { transform: translateX(-30%) rotate(20deg) scale(1.1); }
+    50% { transform: translateX(-50%) rotate(0) scale(1); }
+    75% { transform: translateX(-70%) rotate(-20deg) scale(1.1); }
+    100% { transform: translateX(-50%) rotate(0) scale(1); }
+}
+
+@keyframes floatUp {
+    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    100% { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+}
+
+@keyframes vhsNoise {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(2px); }
+}
+
+@keyframes glitchEffect {
+    0% { transform: translate(0); }
+    25% { transform: translate(-2px, 2px); }
+    50% { transform: translate(2px, -2px); }
+    75% { transform: translate(-2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* Mini-game Styles */
+.light-switch-game {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.light {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.light.on {
+    background: var(--neon-pink);
+    box-shadow: 0 0 30px var(--neon-pink);
+    animation: lightPulse 1s infinite;
+}
+
+@keyframes lightPulse {
+    0%, 100% { box-shadow: 0 0 30px var(--neon-pink); }
+    50% { box-shadow: 0 0 50px var(--neon-pink), 0 0 70px var(--neon-pink); }
+}
+
+.light:not(.on) {
+    background: #333;
+    box-shadow: none;
+}
+
+.plug-pull-game {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 20px;
+}
+
+.plug {
+    width: 80px;
+    height: 80px;
+    background: var(--electric-blue);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px var(--electric-blue);
+    animation: plugWiggle 3s infinite;
+}
+
+@keyframes plugWiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+
+.plug.unplugged {
+    background: #333;
+    box-shadow: none;
+}
+
+/* Solar Panel Cleanup Game */
+.solar-panel-game {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.solar-panel {
+    aspect-ratio: 1;
+    background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid var(--electric-blue);
+    overflow: hidden;
+}
+
+.solar-panel::before {
+    content: '☀️';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    opacity: 0.3;
+}
+
+.solar-panel.dirty::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(101, 67, 33, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.solar-panel:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--electric-blue);
+}
+
+.clean-effect {
+    position: absolute;
+    pointer-events: none;
+    font-size: 24px;
+    animation: cleanEffect 0.5s ease-out forwards;
+}
+
+@keyframes cleanEffect {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+/* Battery Boost Game */
+.battery-boost-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.battery-container {
+    width: 200px;
+    height: 100px;
+    background: #1a1a1a;
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid var(--electric-blue);
+}
+
+.battery-container::after {
+    content: '';
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 40%;
+    background: var(--electric-blue);
+    border-radius: 0 5px 5px 0;
+}
+
+.battery-level {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--lime-green), var(--electric-blue));
+    border-radius: 12px;
+    transition: width 0.3s ease;
+}
+
+.charge-button {
+    padding: 15px 30px;
+    font-size: 24px;
+    background: var(--neon-purple);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Fredoka One', cursive;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: pulse 1.5s infinite;
+}
+
+.charge-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px var(--neon-purple);
+}
+
+.charge-button:active {
+    transform: scale(0.95);
+}
+
+.energy-spark {
+    position: absolute;
+    pointer-events: none;
+    font-size: 20px;
+    animation: sparkFly 1s ease-out forwards;
+}
+
+@keyframes sparkFly {
+    0% { 
+        transform: translate(0, 0) rotate(0deg); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: translate(var(--fly-x), var(--fly-y)) rotate(360deg); 
+        opacity: 0; 
+    }
+}
+
+.battery-percentage {
+    font-size: 24px;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    text-shadow: 0 0 10px var(--electric-blue);
+}
+
+.boost-multiplier {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 32px;
+    color: var(--neon-yellow);
+    text-shadow: 0 0 15px var(--neon-yellow);
+    animation: popAndFade 0.5s ease-out forwards;
+}
+
+@keyframes popAndFade {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+/* AC Control Styles */
+input[type="range"] {
+    width: 80%;
+    margin: 20px auto;
+    display: block;
+    -webkit-appearance: none;
+    background: linear-gradient(90deg, var(--lime-green), var(--neon-pink));
+    height: 15px;
+    border-radius: 10px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--electric-blue);
+}
+
+/* Animations */
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px var(--lime-green); }
+    50% { box-shadow: 0 0 40px var(--lime-green); }
+}
+
+@keyframes run {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Power-ups */
+.power-up {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background: var(--electric-blue);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.power-up:hover {
+    transform: scale(1.1);
+}
+
+/* Game Over Screen */
+#game-over-screen {
+    text-align: center;
+}
+
+#game-over-screen h2 {
+    animation: gameOverPulse 2s infinite;
+}
+
+@keyframes gameOverPulse {
+    0%, 100% { 
+        transform: scale(1);
+        text-shadow: 0 0 20px var(--neon-pink);
+    }
+    50% { 
+        transform: scale(1.1);
+        text-shadow: 0 0 40px var(--neon-purple);
+    }
+}
+
+#leaderboard {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Party Mode Styles */
+#party-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+#party-overlay.hidden {
+    display: none;
+}
+
+.disco-light {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    filter: blur(50px);
+    opacity: 0.7;
+    animation: disco-spin 3s infinite;
+}
+
+.disco-light:nth-child(1) {
+    background: var(--neon-pink);
+    top: 20%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.disco-light:nth-child(2) {
+    background: var(--electric-blue);
+    top: 50%;
+    left: 50%;
+    animation-delay: 1s;
+}
+
+.disco-light:nth-child(3) {
+    background: var(--lime-green);
+    top: 20%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+#party-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 48px;
+    color: white;
+    text-shadow: 0 0 20px var(--neon-pink),
+                 0 0 40px var(--electric-blue);
+    animation: party-text 1s infinite;
+}
+
+@keyframes disco-spin {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.5) rotate(180deg); }
+    100% { transform: scale(1) rotate(360deg); }
+}
+
+@keyframes party-text {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+#chill-guy.party {
+    animation: party-dance 0.5s infinite;
+}
+
+@keyframes party-dance {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(-5deg); }
+    75% { transform: translateY(-10px) rotate(5deg); }
+}
+
+.chill-guy-comment {
+    animation: commentBounce 0.5s ease-out;
+    border: 2px solid var(--electric-blue);
+    box-shadow: 0 0 20px var(--electric-blue);
+}
+
+@keyframes commentBounce {
+    0% { transform: translateX(-50%) scale(0); }
+    50% { transform: translateX(-50%) scale(1.2); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+/* Clone Chill Guy Styles */
+.clone-container {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    pointer-events: all;
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.clone {
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/chill-guy.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: hue-rotate(180deg);
+    opacity: 0.9;
+    transform-origin: center;
+}
+
+.clone-container:hover .clone {
+    animation: cloneWiggle 0.3s infinite;
+}
+
+.clone-container.hit-1 .clone {
+    filter: hue-rotate(90deg);
+}
+
+.clone-container.hit-2 .clone {
+    filter: hue-rotate(270deg);
+}
+
+.clone-container.disappearing {
+    animation: cloneVanish 0.5s forwards;
+}
+
+.clone-message {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--neon-pink);
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    white-space: nowrap;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.clone-container:hover .clone-message {
+    opacity: 1;
+}
+
+@keyframes cloneWiggle {
+    0%, 100% { transform: rotate(-5deg) scale(1.1); }
+    50% { transform: rotate(5deg) scale(1.1); }
+}
+
+@keyframes cloneVanish {
+    0% { 
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.5) rotate(180deg);
+        opacity: 0.5;
+    }
+    100% { 
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Clone Interference Effects */
+.clone-interference {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(45deg, 
+        transparent 0%,
+        rgba(255, 20, 147, 0.1) 50%,
+        transparent 100%
+    );
+    animation: interferenceSlide 1s infinite linear;
+}
+
+@keyframes interferenceSlide {
+    0% { transform: translateX(-100%) rotate(0deg); }
+    100% { transform: translateX(100%) rotate(360deg); }
+}
+
+/* Sabotage Warning */
+.sabotage-warning {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--neon-pink);
+    font-size: 24px;
+    font-family: 'Fredoka One', cursive;
+    text-shadow: 0 0 10px var(--neon-pink);
+    opacity: 0;
+    animation: warningPulse 1s forwards;
+}
+
+@keyframes warningPulse {
+    0% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    50% { 
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
